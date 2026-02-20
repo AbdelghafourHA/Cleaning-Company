@@ -31,7 +31,7 @@ export default function Navbar() {
         {/* Logo */}
         <div className="flex items-center gap-2">
           <Sparkles className="text-blue-600" size={28} />
-          <span className="text-xl font-bold text-gray-800">
+          <span className="dancing-script text-xl font-bold text-gray-800">
             Gueddouda Center
           </span>
         </div>
@@ -76,13 +76,7 @@ export default function Navbar() {
             className="md:hidden bg-white shadow-lg border-t overflow-hidden"
           >
             <ul className="flex flex-col text-center py-4 space-y-4 text-gray-700 font-medium">
-              {[
-                "الرئيسية",
-                "خدماتنا",
-                "من نحن",
-                "آراء العملاء",
-                "اتصل بنا",
-              ].map((item, i) => (
+              {["الرئيسية", "خدماتنا", "من نحن", "اتصل بنا"].map((item, i) => (
                 <li
                   key={i}
                   className="hover:text-blue-600 transition cursor-pointer"
