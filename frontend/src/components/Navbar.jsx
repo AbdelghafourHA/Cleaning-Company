@@ -38,16 +38,14 @@ export default function Navbar() {
 
         {/* Desktop Menu */}
         <ul className="hidden md:flex items-center gap-8 text-gray-700 font-medium">
-          {["الرئيسية", "خدماتنا", "من نحن", "آراء العملاء", "اتصل بنا"].map(
-            (item, i) => (
-              <li
-                key={i}
-                className="relative cursor-pointer hover:text-blue-600 transition"
-              >
-                {item}
-              </li>
-            )
-          )}
+          {["الرئيسية", "خدماتنا", "من نحن", "اتصل بنا"].map((item, i) => (
+            <li
+              key={i}
+              className="relative cursor-pointer hover:text-blue-600 transition"
+            >
+              {item}
+            </li>
+          ))}
         </ul>
 
         {/* Phone Button */}
