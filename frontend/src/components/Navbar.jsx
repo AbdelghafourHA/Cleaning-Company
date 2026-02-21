@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
-import { Menu, X, Phone, Sparkles } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  // Detect scroll
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
@@ -15,80 +14,92 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const links = [
+    { name: "الرئيسية", href: "#home" },
+    { name: "خدماتنا", href: "#services" },
+    { name: "من نحن", href: "#about" },
+    { name: "اتصل بنا", href: "#contact" },
+  ];
+
   return (
     <motion.nav
       initial={{ y: -80 }}
       animate={{ y: 0 }}
-      transition={{ duration: 0.6 }}
+      transition={{ duration: 0.5 }}
       dir="rtl"
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-white/90 backdrop-blur-md shadow-lg"
-          : "bg-white shadow-md"
+        scrolled ? "bg-white shadow-sm" : "bg-white"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+      <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
         {/* Logo */}
-        <div className="flex items-center gap-2">
-          <Sparkles className="text-blue-600" size={28} />
-          <span className="dancing-script text-xl font-bold text-gray-800">
-            Gueddouda Center
-          </span>
-        </div>
+        <a
+          href="#home"
+          dir="ltr"
+          className="dancing-script text-xl font-semibold text-black"
+        >
+          Gueddouda Center
+        </a>
 
-        {/* Desktop Menu */}
-        <ul className="hidden md:flex items-center gap-8 text-gray-700 font-medium">
-          {["الرئيسية", "خدماتنا", "من نحن", "اتصل بنا"].map((item, i) => (
-            <li
-              key={i}
-              className="relative cursor-pointer hover:text-blue-600 transition"
-            >
-              {item}
+        {/* Desktop Links */}
+        <ul className="hidden md:flex items-center gap-10 text-gray-800 font-medium">
+          {links.map((link, i) => (
+            <li key={i}>
+              <a href={link.href} className="hover:text-black transition">
+                {link.name}
+              </a>
             </li>
           ))}
         </ul>
 
-        {/* Phone Button */}
-        <div className="hidden md:flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 cursor-pointer transition hover:scale-105">
-          <Phone size={18} />
-          <span>0550 123 456</span>
-        </div>
-
-        {/* Mobile Button */}
-        <button
-          className="md:hidden text-gray-800"
-          onClick={() => setOpen(!open)}
+        {/* WhatsApp Button */}
+        <a
+          href="https://wa.me/213550123456"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hidden md:inline-block px-6 py-2  bg-green-500 text-white rounded-full"
         >
-          {open ? <X size={28} /> : <Menu size={28} />}
+          واتساب
+        </a>
+
+        {/* Mobile Toggle */}
+        <button className="md:hidden text-black" onClick={() => setOpen(!open)}>
+          {open ? <X size={26} /> : <Menu size={26} />}
         </button>
       </div>
 
-      {/* Mobile Menu Animation */}
+      {/* Mobile Menu */}
       <AnimatePresence>
         {open && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.4 }}
-            className="md:hidden bg-white shadow-lg border-t overflow-hidden"
+            transition={{ duration: 0.3 }}
+            className="md:hidden bg-white border-t"
           >
-            <ul className="flex flex-col text-center py-4 space-y-4 text-gray-700 font-medium">
-              {["الرئيسية", "خدماتنا", "من نحن", "اتصل بنا"].map((item, i) => (
-                <li
-                  key={i}
-                  className="hover:text-blue-600 transition cursor-pointer"
-                  onClick={() => setOpen(false)}
-                >
-                  {item}
+            <ul className="flex flex-col text-center py-6 space-y-6 text-gray-800 font-medium">
+              {links.map((link, i) => (
+                <li key={i}>
+                  <a
+                    href={link.href}
+                    onClick={() => setOpen(false)}
+                    className="block"
+                  >
+                    {link.name}
+                  </a>
                 </li>
               ))}
 
-              <div className="flex justify-center mt-3">
-                <div className="flex items-center gap-2 bg-blue-600 text-white px-5 py-2 rounded-lg">
-                  <Phone size={18} />
-                  <span>0550 123 456</span>
-                </div>
+              <div className="flex justify-center">
+                <a
+                  href="https://wa.me/213550123456"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-6 py-2 bg-green-500 text-white rounded-full"
+                >
+                  واتساب
+                </a>
               </div>
             </ul>
           </motion.div>

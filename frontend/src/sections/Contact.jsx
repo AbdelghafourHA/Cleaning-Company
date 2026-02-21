@@ -18,17 +18,17 @@ export default function Contact() {
   ];
 
   const inputStyle =
-    "w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition";
+    "w-full border border-black rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black transition";
 
   return (
-    <section dir="rtl" className="py-24 bg-gray-50">
+    <section dir="rtl" className="py-24 bg-white" id="contact">
       <div className="max-w-5xl mx-auto px-6">
         {/* Title */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">
             احجز خدمتك الآن
           </h2>
-          <p className="text-gray-600">
+          <p className="text-gray-800">
             اختر نوع الطلب واملأ الاستمارة وسيتم التواصل معك في أقرب وقت.
           </p>
         </div>
@@ -39,10 +39,10 @@ export default function Contact() {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-6 py-3 rounded-xl font-medium transition-all ${
+              className={`px-6 py-3 rounded-xl font-medium border transition-all ${
                 activeTab === tab.id
-                  ? "bg-blue-600 text-white shadow-lg"
-                  : "bg-white text-gray-700 hover:bg-gray-100"
+                  ? "bg-black text-white"
+                  : "bg-white text-black border-black hover:bg-black hover:text-white"
               }`}
             >
               {tab.label}
@@ -51,7 +51,7 @@ export default function Contact() {
         </div>
 
         {/* Form Container */}
-        <div className="bg-white p-8 rounded-3xl shadow-xl">
+        <div className="bg-white p-8 rounded-3xl shadow-xl border border-black">
           <AnimatePresence mode="wait">
             {/* Cleaning */}
             {activeTab === "cleaning" && (
@@ -93,7 +93,7 @@ export default function Contact() {
 
                 <button
                   type="submit"
-                  className="md:col-span-2 bg-blue-600 text-white py-3 rounded-xl hover:bg-blue-700 transition"
+                  className="md:col-span-2 bg-black text-white py-3 rounded-xl border border-black hover:bg-white hover:text-black transition"
                 >
                   إرسال الطلب
                 </button>
@@ -134,7 +134,7 @@ export default function Contact() {
 
                 <button
                   type="submit"
-                  className="w-full bg-blue-600 text-white py-3 rounded-xl hover:bg-blue-700 transition"
+                  className="w-full bg-black text-white py-3 rounded-xl border border-black hover:bg-white hover:text-black transition"
                 >
                   إرسال طلب الكراء
                 </button>
@@ -174,7 +174,7 @@ export default function Contact() {
 
                 <button
                   type="submit"
-                  className="w-full bg-blue-600 text-white py-3 rounded-xl hover:bg-blue-700 transition"
+                  className="w-full bg-black text-white py-3 rounded-xl border border-black hover:bg-white hover:text-black transition"
                 >
                   إرسال طلب العمل
                 </button>

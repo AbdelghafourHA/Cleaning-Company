@@ -4,79 +4,74 @@ import HeroImg from "../assets/Hero.jpg";
 export default function Hero() {
   return (
     <section
+      id="home"
       dir="rtl"
-      className="relative min-h-screen flex items-center justify-center text-white overflow-hidden"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-28"
     >
       {/* Background */}
-      <div className="absolute inset-0">
+      <motion.div
+        initial={{ scale: 1.1 }}
+        animate={{ scale: 1 }}
+        transition={{ duration: 1.5, ease: "easeOut" }}
+        className="absolute inset-0"
+      >
         <img
           src={HeroImg}
-          alt="شركة تنظيف"
-          className="w-full h-full object-cover scale-105"
+          alt="شركة تنظيف احترافية"
+          className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-black/60"></div>
-      </div>
+        <div className="absolute inset-0 bg-black/70"></div>
+      </motion.div>
 
       {/* Content */}
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        variants={{
-          hidden: {},
-          visible: {
-            transition: {
-              staggerChildren: 0.25,
-            },
-          },
-        }}
-        className="relative z-10 max-w-5xl text-center px-6"
-      >
+      <div className="relative z-10 max-w-5xl text-center px-6 text-white">
         {/* Title */}
         <motion.h1
-          variants={{
-            hidden: { opacity: 0, y: 40 },
-            visible: { opacity: 1, y: 0 },
-          }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="font-extrabold leading-tight mb-6
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="font-bold leading-tight mb-6
           text-3xl sm:text-4xl md:text-5xl lg:text-6xl"
         >
-          نظافة مثالية… وراحة تدوم
+          نظافة مثالية ... و راحة تدوم
         </motion.h1>
 
         {/* Description */}
         <motion.p
-          variants={{
-            hidden: { opacity: 0, y: 30 },
-            visible: { opacity: 1, y: 0 },
-          }}
-          transition={{ duration: 0.8 }}
-          className="text-gray-200 mb-8
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, delay: 0.2 }}
+          className="text-gray-300 mb-10
           text-base sm:text-lg md:text-xl
           max-w-3xl mx-auto leading-relaxed"
         >
-          نقدم خدمات تنظيف احترافية للمنازل، المكاتب، والشركات بأعلى معايير
-          الجودة وبأفضل الأسعار. فريق متخصص يضمن لك بيئة نظيفة وصحية.
+          نرتقي بمستوى النظافة لنمنحكم بيئة نظيفة، منظمة و مريحة في كل وقت.
         </motion.p>
 
         {/* Buttons */}
         <motion.div
-          variants={{
-            hidden: { opacity: 0, y: 20 },
-            visible: { opacity: 1, y: 0 },
-          }}
-          transition={{ duration: 0.8 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.4 }}
+          className="flex flex-col sm:flex-row gap-5 justify-center"
         >
-          <button className="cursor-pointer bg-blue-600 hover:bg-blue-700 transition-all duration-300 px-8 py-3 rounded-xl font-semibold text-lg shadow-lg hover:scale-105">
+          {/* Primary Button */}
+          <a
+            href="#booking"
+            className="px-8 py-3 bg-black text-white rounded-full font-medium text-lg hover:opacity-90 transition"
+          >
             احجز الآن
-          </button>
+          </a>
 
-          <button className="cursor-pointer bg-white text-gray-900 hover:bg-gray-200 transition-all duration-300 px-8 py-3 rounded-xl font-semibold text-lg shadow-lg hover:scale-105">
-            تعرف على خدماتنا
-          </button>
+          {/* Secondary Button */}
+          <a
+            href="#services"
+            className="px-8 py-3 border border-white text-white rounded-full font-medium text-lg hover:bg-white hover:text-black transition"
+          >
+            استكشف خدماتنا
+          </a>
         </motion.div>
-      </motion.div>
+      </div>
     </section>
   );
 }
