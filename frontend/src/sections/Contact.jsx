@@ -364,7 +364,7 @@ export default function Contact() {
                 شروط وأحكام التعامل مع الزبائن
               </h3>
               <p className="text-center mb-4 font-semibold">
-                قاعدة سانتر لخدمات التنظيف
+                قاعدة قدودة سانتر لخدمات التنظيف
               </p>
               <p className="text-center mb-6">
                 يرجى الاطلاع على الشروط التالية قبل تأكيد الحجز:
