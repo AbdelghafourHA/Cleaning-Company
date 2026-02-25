@@ -21,17 +21,61 @@ export default function Footer() {
         <div>
           <h4 className="font-semibold mb-4">روابط سريعة</h4>
           <ul className="space-y-3 text-sm">
-            <li className="hover:text-black cursor-pointer transition">
-              الرئيسية
+            <li>
+              <a
+                href="#home"
+                className="hover:text-black cursor-pointer transition block"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document
+                    .getElementById("home")
+                    ?.scrollIntoView({ behavior: "smooth" });
+                }}
+              >
+                الرئيسية
+              </a>
             </li>
-            <li className="hover:text-black cursor-pointer transition">
-              خدماتنا
+            <li>
+              <a
+                href="#services"
+                className="hover:text-black cursor-pointer transition block"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document
+                    .getElementById("services")
+                    ?.scrollIntoView({ behavior: "smooth" });
+                }}
+              >
+                خدماتنا
+              </a>
             </li>
-            <li className="hover:text-black cursor-pointer transition">
-              لماذا نحن
+            <li>
+              <a
+                href="#about"
+                className="hover:text-black cursor-pointer transition block"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document
+                    .getElementById("about")
+                    ?.scrollIntoView({ behavior: "smooth" });
+                }}
+              >
+                لماذا نحن
+              </a>
             </li>
-            <li className="hover:text-black cursor-pointer transition">
-              احجز الآن
+            <li>
+              <a
+                href="#contact"
+                className="hover:text-black cursor-pointer transition block"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document
+                    .getElementById("contact")
+                    ?.scrollIntoView({ behavior: "smooth" });
+                }}
+              >
+                احجز الآن
+              </a>
             </li>
           </ul>
         </div>

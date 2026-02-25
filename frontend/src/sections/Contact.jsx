@@ -107,7 +107,7 @@ export default function Contact() {
   };
 
   return (
-    <section dir="rtl" className="py-24 bg-white scroll-mt-32" id="contact">
+    <section dir="rtl" className="py-24 bg-white " id="contact">
       <div className="max-w-5xl mx-auto px-6">
         {/* Title */}
         <div className="text-center mb-12">
