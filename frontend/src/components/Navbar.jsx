@@ -84,7 +84,7 @@ export default function Navbar() {
                   <a
                     href={link.href}
                     onClick={() => {
-                      setTimeout(() => setOpen(false), 200);
+                      setTimeout(() => setOpen(false), 500);
                     }}
                     className="block"
                   >
