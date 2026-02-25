@@ -1,4 +1,5 @@
 import { Facebook, Instagram, Phone, Mail, MapPin } from "lucide-react";
+import { FaTiktok } from "react-icons/fa";
 
 export default function Footer() {
   return (
@@ -40,10 +41,10 @@ export default function Footer() {
           <h4 className="font-semibold mb-4">تواصل معنا</h4>
           <ul className="space-y-4 text-sm">
             <li className="flex items-center gap-3">
-              <Phone size={18} /> 0550 123 456
+              <Phone size={18} /> 0797 57 49 05
             </li>
             <li className="flex items-center gap-3">
-              <Mail size={18} /> contact@gueddouda.com
+              <Mail size={18} /> gueddoudacenter@gmail.com
             </li>
             <li className="flex items-center gap-3">
               <MapPin size={18} /> الجزائر
@@ -56,24 +57,24 @@ export default function Footer() {
           <h4 className="font-semibold mb-4">تابعنا على</h4>
           <div className="flex gap-4">
             <a
-              href="#"
+              href="https://www.facebook.com/share/1CWiPzHdaz/"
               className="p-3 border border-black rounded-full hover:bg-black hover:text-white transition"
             >
               <Facebook size={20} />
             </a>
             <a
-              href="#"
+              href="https://www.instagram.com/gueddoudacenter/"
               className="p-3 border border-black rounded-full hover:bg-black hover:text-white transition"
             >
               <Instagram size={20} />
             </a>
             <a
-              href="https://wa.me/0550123456"
+              href="https://www.tiktok.com/@gueddouda.center"
+              className="p-3 border border-black rounded-full hover:bg-black hover:text-white transition"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-3 border border-black rounded-full hover:bg-black hover:text-white transition"
             >
-              واتساب
+              <FaTiktok size={20} />
             </a>
           </div>
         </div>

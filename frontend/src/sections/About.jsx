@@ -27,7 +27,7 @@ export default function WhyChooseUs() {
   ];
 
   return (
-    <section dir="rtl" className="py-24 bg-white overflow-hidden" id="about">
+    <section dir="rtl" className="py-24 bg-white overflow-hidden " id="about">
       <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
         {/* Image */}
         <motion.div

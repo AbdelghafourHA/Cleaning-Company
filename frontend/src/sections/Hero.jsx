@@ -57,7 +57,7 @@ export default function Hero() {
         >
           {/* Primary Button */}
           <a
-            href="#booking"
+            href="#contact"
             className="px-8 py-3 bg-black text-white rounded-full font-medium text-lg hover:opacity-90 transition"
           >
             احجز الآن

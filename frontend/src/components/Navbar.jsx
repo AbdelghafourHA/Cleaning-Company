@@ -54,7 +54,7 @@ export default function Navbar() {
 
         {/* WhatsApp Button */}
         <a
-          href="https://wa.me/213550123456"
+          href="https://wa.me/213797574905"
           target="_blank"
           rel="noopener noreferrer"
           className="hidden md:inline-block px-6 py-2  bg-green-500 text-white rounded-full"
@@ -83,7 +83,9 @@ export default function Navbar() {
                 <li key={i}>
                   <a
                     href={link.href}
-                    onClick={() => setOpen(false)}
+                    onClick={() => {
+                      setTimeout(() => setOpen(false), 100);
+                    }}
                     className="block"
                   >
                     {link.name}
@@ -93,7 +95,7 @@ export default function Navbar() {
 
               <div className="flex justify-center">
                 <a
-                  href="https://wa.me/213550123456"
+                  href="https://wa.me/213797574905"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-6 py-2 bg-green-500 text-white rounded-full"
