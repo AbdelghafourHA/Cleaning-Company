@@ -364,7 +364,7 @@ export default function Contact() {
                 شروط وأحكام التعامل مع الزبائن
               </h3>
               <p className="text-center mb-4 font-semibold">
-                قاعدة قدودة سانتر لخدمات التنظيف
+                شركة قدودة سانتر لخدمات التنظيف
               </p>
               <p className="text-center mb-6">
                 يرجى الاطلاع على الشروط التالية قبل تأكيد الحجز:
@@ -409,7 +409,7 @@ export default function Contact() {
                 شروط كراء الأجهزة
               </h3>
               <p className="text-center mb-4 font-semibold">
-                قاعدة سانتر لخدمات التنظيف
+                شركة قدودة سانتر لخدمات التنظيف
               </p>
               <p className="text-center mb-6">
                 يرجى الاطلاع على الشروط التالية قبل تأكيد الحجز:
@@ -451,8 +451,14 @@ export default function Contact() {
               className="bg-white max-w-3xl w-full rounded-3xl p-8 overflow-y-auto max-h-[80vh]"
             >
               <h3 className="text-2xl font-bold mb-6 text-center">
-                شروط الترشح للعمل لدى قاعدة سانتر
+                شروط الترشح للعمل
               </h3>
+              <p className="text-center mb-4 font-semibold">
+                شركة قدودة سانتر لخدمات التنظيف
+              </p>
+              <p className="text-center mb-6">
+                يرجى الاطلاع على الشروط التالية قبل تأكيد الحجز:
+              </p>
 
               <ul className="space-y-3 text-sm text-gray-800 leading-relaxed">
                 {jobTerms.map((term, index) => (
