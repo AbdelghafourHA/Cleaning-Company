@@ -85,7 +85,7 @@ export default function Footer() {
           <h4 className="font-semibold mb-4">تواصل معنا</h4>
           <ul className="space-y-4 text-sm">
             <li className="flex items-center gap-3">
-              <Phone size={18} /> 0797 57 49 05
+              <Phone size={18} /> <span dir="ltr">0797 57 49 05</span>
             </li>
             <li className="flex items-center gap-3">
               <Mail size={18} /> gueddoudacenter@gmail.com
