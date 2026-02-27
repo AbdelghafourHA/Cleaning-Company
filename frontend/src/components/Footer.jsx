@@ -101,6 +101,7 @@ export default function Footer() {
           <h4 className="font-semibold mb-4">تابعنا على</h4>
           <div className="flex gap-4">
             <a
+              target="_blank"
               href="https://www.facebook.com/share/1CWiPzHdaz/"
               className="p-3 border border-black rounded-full hover:bg-black hover:text-white transition"
             >
@@ -108,6 +109,7 @@ export default function Footer() {
             </a>
             <a
               href="https://www.instagram.com/gueddoudacenter/"
+              target="_blank"
               className="p-3 border border-black rounded-full hover:bg-black hover:text-white transition"
             >
               <Instagram size={20} />
