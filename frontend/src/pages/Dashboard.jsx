@@ -349,6 +349,15 @@ const Dashboard = () => {
     }
   };
 
+  // دالة لتنسيق التاريخ بأرقام غربية
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
   return (
     <div className="min-h-screen bg-gray-50" dir="rtl">
       {/* Header */}
@@ -471,7 +480,7 @@ const Dashboard = () => {
                       {request.item || request.service}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {new Date(request.date).toLocaleDateString("ar-SA")}
+                      {formatDate(request.date)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       {getStatusBadge(request.status)}
@@ -546,7 +555,7 @@ const Dashboard = () => {
                   <div>
                     <span className="text-gray-500">التاريخ:</span>
                     <span className="text-gray-900 mr-1">
-                      {new Date(request.date).toLocaleDateString("ar-SA")}
+                      {formatDate(request.date)}
                     </span>
                   </div>
                 </div>
@@ -740,9 +749,7 @@ const Dashboard = () => {
                     <div>
                       <span className="text-sm text-gray-500">التاريخ:</span>
                       <span className="text-sm text-gray-900 mr-2">
-                        {new Date(selectedRequest.date).toLocaleDateString(
-                          "ar-SA"
-                        )}
+                        {formatDate(selectedRequest.date)}
                       </span>
                     </div>
 
