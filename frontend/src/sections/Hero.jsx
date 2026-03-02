@@ -20,7 +20,7 @@ export default function Hero() {
           alt="شركة تنظيف احترافية"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-black/70"></div>
+        <div className="absolute inset-0 bg-black/60"></div>
       </motion.div>
 
       {/* Content */}
