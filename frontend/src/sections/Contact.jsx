@@ -21,10 +21,10 @@ export default function Contact() {
   ];
 
   const equipmentList = [
-    "آلة تنظيف بالبخار",
-    "مكنسة صناعية قوية",
-    "آلة تلميع الأرضيات",
-    "جهاز تعقيم احترافي",
+    "ماكينة متعددة الاستخدامات بالبخار",
+    "Siffleur et aspirateur de poussière",
+    "Karcher d'eau",
+    "ماكينة غسل الأرائك، الزرابي و الصالونات",
   ];
 
   const inputStyle =
