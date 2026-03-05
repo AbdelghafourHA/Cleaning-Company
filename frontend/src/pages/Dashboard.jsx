@@ -1,227 +1,104 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import useAuthStore from "../stores/useAuthStore";
+import useRequestStore from "../stores/useRequestStore";
 
 const Dashboard = () => {
+  const { admin, logout } = useAuthStore();
+  const {
+    requests,
+    stats,
+    loading,
+    error,
+    fetchRequests,
+    fetchStats,
+    updateRequestStatus,
+    deleteRequest,
+    setSelectedRequest,
+    selectedRequest,
+  } = useRequestStore();
+
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedRequest, setSelectedRequest] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const itemsPerPage = 5;
 
-  // Sample data for different request types with more details
-  const [requests, setRequests] = useState({
-    equipment: [
-      {
-        id: 1,
-        client: "أحمد محمد",
-        item: "جهاز تتبع",
-        date: "2024-01-15",
-        status: "pending",
-        phone: "0555123456",
-        email: "ahmed@example.com",
-        address: "الرياض، حي النزهة",
-        notes: "يرغب في تركيب الجهاز يوم السبت",
-        price: "1500 ريال",
-        quantity: 2,
-      },
-      {
-        id: 2,
-        client: "سارة أحمد",
-        item: "جهاز مراقبة",
-        date: "2024-01-14",
-        status: "approved",
-        phone: "0555123457",
-        email: "sara@example.com",
-        address: "جدة، حي السلامة",
-        notes: "كاميرات داخلية وخارجية",
-        price: "2500 ريال",
-        quantity: 4,
-      },
-      {
-        id: 3,
-        client: "خالد علي",
-        item: "جهاز استشعار",
-        date: "2024-01-13",
-        status: "rejected",
-        phone: "0555123458",
-        email: "khaled@example.com",
-        address: "الدمام، حي الشاطئ",
-        notes: "للمنزل الذكي",
-        price: "800 ريال",
-        quantity: 3,
-      },
-      {
-        id: 4,
-        client: "نورا حسن",
-        item: "جهاز قياس",
-        date: "2024-01-12",
-        status: "completed",
-        phone: "0555123459",
-        email: "noura@example.com",
-        address: "مكة، حي العزيزية",
-        notes: "جهاز قياس الحرارة والرطوبة",
-        price: "600 ريال",
-        quantity: 1,
-      },
-      {
-        id: 11,
-        client: "فيصل عمر",
-        item: "جهاز تتبع",
-        date: "2024-01-11",
-        status: "pending",
-        phone: "0555123460",
-        email: "faisal@example.com",
-        address: "الرياض، حي الملقا",
-        notes: "للسيارة الشخصية",
-        price: "1200 ريال",
-        quantity: 1,
-      },
-      {
-        id: 12,
-        client: "لمى سعد",
-        item: "جهاز مراقبة",
-        date: "2024-01-10",
-        status: "approved",
-        phone: "0555123461",
-        email: "lama@example.com",
-        address: "الخبر، حي العليا",
-        notes: "نظام كاميرات متكامل",
-        price: "3200 ريال",
-        quantity: 6,
-      },
-    ],
-    work: [
-      {
-        id: 5,
-        client: "محمد عمر",
-        service: "صيانة عامة",
-        date: "2024-01-15",
-        status: "pending",
-        phone: "0555123462",
-        email: "mohammed@example.com",
-        address: "الرياض، حي الورود",
-        notes: "صيانة دورية للمكيفات",
-        price: "400 ريال",
-        technician: "أحمد محمود",
-      },
-      {
-        id: 6,
-        client: "فاطمة سعيد",
-        service: "تركيب جهاز",
-        date: "2024-01-14",
-        status: "approved",
-        phone: "0555123463",
-        email: "fatima@example.com",
-        address: "جدة، حي الروضة",
-        notes: "تركيب مكيف سبليت",
-        price: "300 ريال",
-        technician: "خالد عبدالله",
-      },
-      {
-        id: 7,
-        client: "عمر خالد",
-        service: "إصلاح عطل",
-        date: "2024-01-13",
-        status: "pending",
-        phone: "0555123464",
-        email: "omar@example.com",
-        address: "الدمام، حي الجلوية",
-        notes: "عطل في الثلاجة",
-        price: "250 ريال",
-        technician: "سامي أحمد",
-      },
-      {
-        id: 13,
-        client: "نوال أحمد",
-        service: "صيانة دورية",
-        date: "2024-01-09",
-        status: "completed",
-        phone: "0555123465",
-        email: "nawal@example.com",
-        address: "الرياض، حي النرجس",
-        notes: "صيانة جميع الأجهزة",
-        price: "800 ريال",
-        technician: "فيصل عمر",
-      },
-    ],
-    cleaning: [
-      {
-        id: 8,
-        client: "لمى أحمد",
-        service: "تنظيف مكتب",
-        date: "2024-01-15",
-        status: "pending",
-        phone: "0555123466",
-        email: "lama.a@example.com",
-        address: "الرياض، حي العليا",
-        notes: "تنظيف شامل للمكتب",
-        price: "600 ريال",
-        area: "150 متر مربع",
-      },
-      {
-        id: 9,
-        client: "سعود فهد",
-        service: "تنظيف ورشة",
-        date: "2024-01-14",
-        status: "completed",
-        phone: "0555123467",
-        email: "saud@example.com",
-        address: "جدة، حي الصناعية",
-        notes: "تنظيف بعد الترميم",
-        price: "1200 ريال",
-        area: "300 متر مربع",
-      },
-      {
-        id: 10,
-        client: "هيا عبدالله",
-        service: "تنظيف معمل",
-        date: "2024-01-13",
-        status: "approved",
-        phone: "0555123468",
-        email: "haya@example.com",
-        address: "الخبر، حي الثقبة",
-        notes: "تنظيم وتعقيم المعمل",
-        price: "900 ريال",
-        area: "200 متر مربع",
-      },
-      {
-        id: 14,
-        client: "بدر محمد",
-        service: "تنظيف مكتب",
-        date: "2024-01-08",
-        status: "pending",
-        phone: "0555123469",
-        email: "badr@example.com",
-        address: "الرياض، حي السليمانية",
-        notes: "تنظيف يومي",
-        price: "400 ريال",
-        area: "100 متر مربع",
-      },
-    ],
-  });
+  // جلب البيانات عند تحميل الصفحة
+  useEffect(() => {
+    fetchRequests();
+    fetchStats();
+  }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    navigate("/login");
+  // دالة لتنسيق التاريخ
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
   };
 
-  const handleStatusChange = (type, id, newStatus) => {
-    setRequests((prev) => ({
-      ...prev,
-      [type]: prev[type].map((req) =>
-        req.id === id ? { ...req, status: newStatus } : req
-      ),
-    }));
+  // دالة لتنسيق البيانات حسب نوع الطلب
+  const formatRequestForDisplay = (request) => {
+    let displayData = {
+      id: request._id,
+      client: request.clientName,
+      date: formatDate(request.createdAt),
+      status: request.status,
+      phone: request.phone,
+      email: request.email || "—",
+      address: request.address || "—",
+      notes: request.notes || "—",
+      type: request.type,
+      typeName:
+        request.type === "work"
+          ? "طلبات عمل"
+          : request.type === "rental"
+          ? "كراء أجهزة"
+          : "تنظيف",
+    };
+
+    // إضافة حقول مخصصة حسب نوع الطلب
+    switch (request.type) {
+      case "work":
+        displayData.service = "طلب عمل";
+        displayData.workExperience = request.workExperience || "—";
+        break;
+      case "rental":
+        displayData.item = request.equipmentType || "—";
+        displayData.rentalDuration = request.rentalDuration || "—";
+        displayData.equipmentNotes = request.equipmentNotes || "—";
+        break;
+      case "cleaning":
+        displayData.service = request.placeType || "—";
+        displayData.additionalDetails = request.additionalDetails || "—";
+        break;
+    }
+
+    return displayData;
   };
 
-  const handleDelete = (type, id) => {
+  const handleLogout = async () => {
+    await logout();
+    navigate("/login", { replace: true });
+  };
+
+  const handleStatusChange = async (id, newStatus) => {
+    const result = await updateRequestStatus(id, newStatus);
+    if (result.success) {
+      // تحديث الإحصائيات بعد تغيير الحالة
+      fetchStats();
+    }
+  };
+
+  const handleDelete = async (id) => {
     if (window.confirm("هل أنت متأكد من حذف هذا الطلب؟")) {
-      setRequests((prev) => ({
-        ...prev,
-        [type]: prev[type].filter((req) => req.id !== id),
-      }));
+      const result = await deleteRequest(id);
+      if (result.success) {
+        // تحديث الإحصائيات بعد الحذف
+        fetchStats();
+      }
     }
   };
 
@@ -253,57 +130,18 @@ const Dashboard = () => {
     );
   };
 
-  const getAllRequests = () => {
-    return [
-      ...requests.equipment.map((r) => ({
-        ...r,
-        type: "equipment",
-        typeName: "كراء أجهزة",
-      })),
-      ...requests.work.map((r) => ({
-        ...r,
-        type: "work",
-        typeName: "طلبات عمل",
-      })),
-      ...requests.cleaning.map((r) => ({
-        ...r,
-        type: "cleaning",
-        typeName: "تنظيف",
-      })),
-    ];
-  };
-
-  const getFilteredRequests = () => {
-    if (activeTab === "all") return getAllRequests();
-    if (activeTab === "equipment")
-      return requests.equipment.map((r) => ({
-        ...r,
-        type: "equipment",
-        typeName: "كراء أجهزة",
-      }));
-    if (activeTab === "work")
-      return requests.work.map((r) => ({
-        ...r,
-        type: "work",
-        typeName: "طلبات عمل",
-      }));
-    if (activeTab === "cleaning")
-      return requests.cleaning.map((r) => ({
-        ...r,
-        type: "cleaning",
-        typeName: "تنظيف",
-      }));
-    return [];
-  };
+  // الحصول على الطلبات المفلترة
+  const filteredRequests = requests
+    .map(formatRequestForDisplay)
+    .filter((req) => activeTab === "all" || req.type === activeTab)
+    .sort((a, b) => new Date(b.date) - new Date(a.date)); // ترتيب من الأحدث للأقدم
 
   // Pagination logic
-  const filteredRequests = getFilteredRequests();
   const totalPages = Math.ceil(filteredRequests.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentRequests = filteredRequests.slice(startIndex, endIndex);
 
-  // Reset to first page when tab changes
   const handleTabChange = (tab) => {
     setActiveTab(tab);
     setCurrentPage(1);
@@ -325,7 +163,6 @@ const Dashboard = () => {
     }
   };
 
-  // Generate page numbers for pagination
   const getPageNumbers = () => {
     const pageNumbers = [];
     const maxVisiblePages = 5;
@@ -342,21 +179,23 @@ const Dashboard = () => {
     return pageNumbers;
   };
 
-  // Close modal when clicking outside
   const closeModal = (e) => {
     if (e.target === e.currentTarget) {
       setIsModalOpen(false);
+      setSelectedRequest(null);
     }
   };
 
-  // دالة لتنسيق التاريخ بأرقام غربية
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
-  };
+  if (loading && requests.length === 0) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto"></div>
+          <p className="mt-4 text-gray-600">جارٍ تحميل الطلبات...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50" dir="rtl">
@@ -365,17 +204,52 @@ const Dashboard = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <h1 className="text-xl font-semibold text-gray-900">لوحة التحكم</h1>
-            <button
-              onClick={handleLogout}
-              className="px-4 py-2 text-sm border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
-            >
-              تسجيل خروج
-            </button>
+            <div className="flex items-center gap-4">
+              {/* إحصائيات سريعة - تظهر فقط على الشاشات المتوسطة فما فوق */}
+              <div className="hidden md:flex items-center gap-4 text-sm">
+                <div className="flex items-center gap-2">
+                  <span className="text-gray-600">المجموع:</span>
+                  <span className="font-medium text-gray-900">
+                    {stats.total}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-yellow-600">قيد الانتظار:</span>
+                  <span className="font-medium text-yellow-600">
+                    {stats.pending}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-green-600">تمت الموافقة:</span>
+                  <span className="font-medium text-green-600">
+                    {stats.approved}
+                  </span>
+                </div>
+              </div>
+              <span className="text-gray-600 hidden sm:inline">
+                مرحباً {admin?.email}
+              </span>
+              <button
+                onClick={handleLogout}
+                className="px-4 py-2 text-sm border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors"
+              >
+                تسجيل خروج
+              </button>
+            </div>
           </div>
         </div>
       </header>
 
-      {/* Tabs - Scrollable on mobile */}
+      {/* عرض الخطأ إذا وجد */}
+      {error && (
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+            {error}
+          </div>
+        </div>
+      )}
+
+      {/* Tabs */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 mt-6">
         <div className="border-b border-gray-200">
           <div className="flex overflow-x-auto pb-1 space-x-4 sm:space-x-8 hide-scrollbar">
@@ -389,20 +263,20 @@ const Dashboard = () => {
             >
               الكل{" "}
               <span className="text-xs sm:text-sm text-gray-400 mr-1">
-                ({getAllRequests().length})
+                ({stats.total})
               </span>
             </button>
             <button
-              onClick={() => handleTabChange("equipment")}
+              onClick={() => handleTabChange("rental")}
               className={`py-3 px-2 sm:px-4 whitespace-nowrap text-sm sm:text-base font-medium transition-colors ${
-                activeTab === "equipment"
+                activeTab === "rental"
                   ? "border-b-2 border-gray-900 text-gray-900"
                   : "text-gray-500 hover:text-gray-700"
               }`}
             >
               كراء أجهزة{" "}
               <span className="text-xs sm:text-sm text-gray-400 mr-1">
-                ({requests.equipment.length})
+                ({stats.byType?.rental || 0})
               </span>
             </button>
             <button
@@ -415,7 +289,7 @@ const Dashboard = () => {
             >
               طلبات عمل{" "}
               <span className="text-xs sm:text-sm text-gray-400 mr-1">
-                ({requests.work.length})
+                ({stats.byType?.work || 0})
               </span>
             </button>
             <button
@@ -428,14 +302,14 @@ const Dashboard = () => {
             >
               تنظيف{" "}
               <span className="text-xs sm:text-sm text-gray-400 mr-1">
-                ({requests.cleaning.length})
+                ({stats.byType?.cleaning || 0})
               </span>
             </button>
           </div>
         </div>
       </div>
 
-      {/* Requests Table - Responsive */}
+      {/* Requests Table */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="bg-white rounded-lg shadow overflow-hidden">
           {/* Desktop Table View */}
@@ -468,7 +342,11 @@ const Dashboard = () => {
                   <tr
                     key={request.id}
                     className="hover:bg-gray-50 transition-colors cursor-pointer"
-                    onClick={() => handleViewDetails(request)}
+                    onClick={() =>
+                      handleViewDetails(
+                        requests.find((r) => r._id === request.id)
+                      )
+                    }
                   >
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                       {request.client}
@@ -477,10 +355,10 @@ const Dashboard = () => {
                       {request.typeName}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {request.item || request.service}
+                      {request.item || request.service || "—"}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {formatDate(request.date)}
+                      {request.date}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       {getStatusBadge(request.status)}
@@ -493,11 +371,7 @@ const Dashboard = () => {
                         <select
                           value={request.status}
                           onChange={(e) =>
-                            handleStatusChange(
-                              request.type,
-                              request.id,
-                              e.target.value
-                            )
+                            handleStatusChange(request.id, e.target.value)
                           }
                           className="border border-gray-300 rounded-md px-2 py-1 text-xs bg-white text-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-500"
                         >
@@ -507,7 +381,7 @@ const Dashboard = () => {
                           <option value="completed">مكتمل</option>
                         </select>
                         <button
-                          onClick={() => handleDelete(request.type, request.id)}
+                          onClick={() => handleDelete(request.id)}
                           className="border border-gray-300 rounded-md px-2 py-1 text-xs hover:bg-red-50 hover:border-red-300 transition-colors"
                         >
                           حذف
@@ -533,7 +407,9 @@ const Dashboard = () => {
               <div
                 key={request.id}
                 className="border-b border-gray-200 p-4 hover:bg-gray-50 transition-colors cursor-pointer"
-                onClick={() => handleViewDetails(request)}
+                onClick={() =>
+                  handleViewDetails(requests.find((r) => r._id === request.id))
+                }
               >
                 <div className="flex justify-between items-start mb-2">
                   <div>
@@ -549,13 +425,17 @@ const Dashboard = () => {
                   <div>
                     <span className="text-gray-500">التفاصيل:</span>
                     <span className="text-gray-900 mr-1">
-                      {request.item || request.service}
+                      {request.item || request.service || "—"}
                     </span>
                   </div>
                   <div>
                     <span className="text-gray-500">التاريخ:</span>
-                    <span className="text-gray-900 mr-1">
-                      {formatDate(request.date)}
+                    <span className="text-gray-900 mr-1">{request.date}</span>
+                  </div>
+                  <div>
+                    <span className="text-gray-500">الجوال:</span>
+                    <span className="text-gray-900 mr-1" dir="ltr">
+                      {request.phone}
                     </span>
                   </div>
                 </div>
@@ -567,11 +447,7 @@ const Dashboard = () => {
                   <select
                     value={request.status}
                     onChange={(e) =>
-                      handleStatusChange(
-                        request.type,
-                        request.id,
-                        e.target.value
-                      )
+                      handleStatusChange(request.id, e.target.value)
                     }
                     className="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm bg-white text-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-500"
                   >
@@ -581,7 +457,7 @@ const Dashboard = () => {
                     <option value="completed">مكتمل</option>
                   </select>
                   <button
-                    onClick={() => handleDelete(request.type, request.id)}
+                    onClick={() => handleDelete(request.id)}
                     className="px-4 py-2 border border-gray-300 rounded-md text-sm hover:bg-red-50 hover:border-red-300 transition-colors"
                   >
                     حذف
@@ -597,7 +473,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Pagination - Responsive */}
+        {/* Pagination */}
         {filteredRequests.length > 0 && (
           <div className="mt-6">
             <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
@@ -674,7 +550,10 @@ const Dashboard = () => {
                   تفاصيل الطلب
                 </h2>
                 <button
-                  onClick={() => setIsModalOpen(false)}
+                  onClick={() => {
+                    setIsModalOpen(false);
+                    setSelectedRequest(null);
+                  }}
                   className="text-gray-400 hover:text-gray-600 transition-colors"
                 >
                   <svg
@@ -708,7 +587,7 @@ const Dashboard = () => {
                     <div>
                       <span className="text-sm text-gray-500">الاسم:</span>
                       <span className="text-sm text-gray-900 mr-2">
-                        {selectedRequest.client}
+                        {selectedRequest.clientName}
                       </span>
                     </div>
                     <div>
@@ -722,13 +601,13 @@ const Dashboard = () => {
                         البريد الإلكتروني:
                       </span>
                       <span className="text-sm text-gray-900 mr-2">
-                        {selectedRequest.email}
+                        {selectedRequest.email || "—"}
                       </span>
                     </div>
                     <div>
                       <span className="text-sm text-gray-500">العنوان:</span>
                       <span className="text-sm text-gray-900 mr-2">
-                        {selectedRequest.address}
+                        {selectedRequest.address || "—"}
                       </span>
                     </div>
                   </div>
@@ -743,68 +622,85 @@ const Dashboard = () => {
                     <div>
                       <span className="text-sm text-gray-500">نوع الطلب:</span>
                       <span className="text-sm text-gray-900 mr-2">
-                        {selectedRequest.typeName}
+                        {selectedRequest.type === "work"
+                          ? "طلب عمل"
+                          : selectedRequest.type === "rental"
+                          ? "كراء أجهزة"
+                          : "تنظيف"}
                       </span>
                     </div>
                     <div>
-                      <span className="text-sm text-gray-500">التاريخ:</span>
+                      <span className="text-sm text-gray-500">
+                        تاريخ الإنشاء:
+                      </span>
                       <span className="text-sm text-gray-900 mr-2">
-                        {formatDate(selectedRequest.date)}
+                        {formatDate(selectedRequest.createdAt)}
                       </span>
                     </div>
 
-                    {/* Dynamic fields based on request type */}
-                    {selectedRequest.item && (
-                      <div>
-                        <span className="text-sm text-gray-500">الجهاز:</span>
-                        <span className="text-sm text-gray-900 mr-2">
-                          {selectedRequest.item}
-                        </span>
-                      </div>
+                    {/* حقول مخصصة حسب نوع الطلب */}
+                    {selectedRequest.type === "work" && (
+                      <>
+                        <div className="sm:col-span-2">
+                          <span className="text-sm text-gray-500">
+                            خبرات سابقة:
+                          </span>
+                          <span className="text-sm text-gray-900 mr-2">
+                            {selectedRequest.workExperience || "—"}
+                          </span>
+                        </div>
+                      </>
                     )}
 
-                    {selectedRequest.service && (
-                      <div>
-                        <span className="text-sm text-gray-500">الخدمة:</span>
-                        <span className="text-sm text-gray-900 mr-2">
-                          {selectedRequest.service}
-                        </span>
-                      </div>
+                    {selectedRequest.type === "rental" && (
+                      <>
+                        <div>
+                          <span className="text-sm text-gray-500">
+                            نوع الجهاز:
+                          </span>
+                          <span className="text-sm text-gray-900 mr-2">
+                            {selectedRequest.equipmentType || "—"}
+                          </span>
+                        </div>
+                        <div>
+                          <span className="text-sm text-gray-500">
+                            مدة الكراء:
+                          </span>
+                          <span className="text-sm text-gray-900 mr-2">
+                            {selectedRequest.rentalDuration || "—"}
+                          </span>
+                        </div>
+                        <div className="sm:col-span-2">
+                          <span className="text-sm text-gray-500">
+                            ملاحظات الكراء:
+                          </span>
+                          <span className="text-sm text-gray-900 mr-2">
+                            {selectedRequest.equipmentNotes || "—"}
+                          </span>
+                        </div>
+                      </>
                     )}
 
-                    {selectedRequest.quantity && (
-                      <div>
-                        <span className="text-sm text-gray-500">الكمية:</span>
-                        <span className="text-sm text-gray-900 mr-2">
-                          {selectedRequest.quantity}
-                        </span>
-                      </div>
+                    {selectedRequest.type === "cleaning" && (
+                      <>
+                        <div>
+                          <span className="text-sm text-gray-500">
+                            نوع المكان:
+                          </span>
+                          <span className="text-sm text-gray-900 mr-2">
+                            {selectedRequest.placeType || "—"}
+                          </span>
+                        </div>
+                        <div className="sm:col-span-2">
+                          <span className="text-sm text-gray-500">
+                            تفاصيل إضافية:
+                          </span>
+                          <span className="text-sm text-gray-900 mr-2">
+                            {selectedRequest.additionalDetails || "—"}
+                          </span>
+                        </div>
+                      </>
                     )}
-
-                    {selectedRequest.technician && (
-                      <div>
-                        <span className="text-sm text-gray-500">الفني:</span>
-                        <span className="text-sm text-gray-900 mr-2">
-                          {selectedRequest.technician}
-                        </span>
-                      </div>
-                    )}
-
-                    {selectedRequest.area && (
-                      <div>
-                        <span className="text-sm text-gray-500">المساحة:</span>
-                        <span className="text-sm text-gray-900 mr-2">
-                          {selectedRequest.area}
-                        </span>
-                      </div>
-                    )}
-
-                    <div>
-                      <span className="text-sm text-gray-500">السعر:</span>
-                      <span className="text-sm text-gray-900 mr-2">
-                        {selectedRequest.price}
-                      </span>
-                    </div>
                   </div>
                 </div>
 
@@ -819,10 +715,46 @@ const Dashboard = () => {
                     </p>
                   </div>
                 )}
+
+                {/* Terms Agreement */}
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm text-gray-500">
+                      الموافقة على الشروط:
+                    </span>
+                    <span
+                      className={`text-sm font-medium ${
+                        selectedRequest.agreeToTerms
+                          ? "text-green-600"
+                          : "text-red-600"
+                      }`}
+                    >
+                      {selectedRequest.agreeToTerms
+                        ? "تمت الموافقة"
+                        : "لم تتم الموافقة"}
+                    </span>
+                  </div>
+                </div>
               </div>
 
               {/* Actions */}
-              <div className="mt-6 flex justify-end space-x-2 space-x-reverse">
+              <div className="mt-6 flex justify-end gap-2">
+                <select
+                  value={selectedRequest.status}
+                  onChange={(e) => {
+                    handleStatusChange(selectedRequest._id, e.target.value);
+                    setSelectedRequest({
+                      ...selectedRequest,
+                      status: e.target.value,
+                    });
+                  }}
+                  className="border border-gray-300 rounded-md px-3 py-2 text-sm bg-white text-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-500"
+                >
+                  <option value="pending">قيد الانتظار</option>
+                  <option value="approved">موافقة</option>
+                  <option value="rejected">رفض</option>
+                  <option value="completed">مكتمل</option>
+                </select>
                 <button
                   onClick={() => setIsModalOpen(false)}
                   className="px-4 py-2 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50"
@@ -836,7 +768,7 @@ const Dashboard = () => {
       )}
 
       {/* Add custom styles for scrollbar hiding */}
-      <style jsx>{`
+      <style>{`
         .hide-scrollbar {
           -ms-overflow-style: none;
           scrollbar-width: none;
