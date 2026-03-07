@@ -8,11 +8,10 @@ export default function Hero() {
       dir="rtl"
       className="relative min-h-screen flex items-center justify-center overflow-hidden pt-28"
     >
-      {/* Background */}
       <motion.div
         initial={{ scale: 1.1 }}
         animate={{ scale: 1 }}
-        transition={{ duration: 1.5, ease: "easeOut" }}
+        transition={{ duration: 1.8, ease: [0.43, 0.13, 0.23, 0.96] }}
         className="absolute inset-0"
       >
         <img
@@ -20,7 +19,17 @@ export default function Hero() {
           alt="شركة تنظيف احترافية"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-black/60"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70"></div>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.3 }}
+        transition={{ delay: 0.5, duration: 1 }}
+        className="absolute inset-0 z-5 pointer-events-none"
+      >
+        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
       </motion.div>
 
       {/* Content */}
@@ -33,7 +42,17 @@ export default function Hero() {
           className="font-bold leading-tight mb-6
           text-3xl sm:text-4xl md:text-5xl lg:text-6xl"
         >
-          نظافة مثالية ... و راحة تدوم
+          نظافة{" "}
+          <span className="relative inline-block">
+            مثالية
+            <motion.span
+              initial={{ width: 0 }}
+              animate={{ width: "100%" }}
+              transition={{ delay: 1, duration: 0.8 }}
+              className="absolute -bottom-2 left-0 h-1 bg-white rounded-full"
+            ></motion.span>
+          </span>{" "}
+          ... و راحة تدوم
         </motion.h1>
 
         {/* Description */}
@@ -41,9 +60,9 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.2 }}
-          className="text-gray-300 mb-10
+          className="text-gray-200 mb-10
           text-base sm:text-lg md:text-xl
-          max-w-3xl mx-auto leading-relaxed"
+          max-w-2xl mx-auto leading-relaxed"
         >
           نرتقي بمستوى النظافة لنمنحكم بيئة نظيفة، منظمة و مريحة في كل وقت.
         </motion.p>
@@ -55,23 +74,40 @@ export default function Hero() {
           transition={{ duration: 1, delay: 0.4 }}
           className="flex flex-col sm:flex-row gap-5 justify-center"
         >
-          {/* Primary Button */}
           <a
             href="#contact"
-            className="px-8 py-3 bg-black text-white rounded-full font-medium text-lg hover:opacity-90 transition"
+            className="group px-8 py-3 bg-black text-white rounded-full font-medium text-lg 
+            hover:bg-opacity-90 transition-all duration-300 
+            shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_25px_rgba(0,0,0,0.5)] 
+            hover:-translate-y-1"
           >
             احجز الآن
           </a>
 
-          {/* Secondary Button */}
           <a
             href="#services"
-            className="px-8 py-3 border border-white text-white rounded-full font-medium text-lg hover:bg-white hover:text-black transition"
+            className="group px-8 py-3 border-2 border-white text-white rounded-full font-medium text-lg 
+            hover:bg-white hover:text-black transition-all duration-300
+            hover:-translate-y-1 hover:shadow-[0_8px_25px_rgba(255,255,255,0.3)]"
           >
             استكشف خدماتنا
           </a>
         </motion.div>
       </div>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.2, duration: 1 }}
+        className="absolute bottom-5 left-1/2 transform -translate-x-1/2 hidden md:block"
+      >
+        <motion.div
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+          className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center"
+        >
+          <div className="w-1 h-2 bg-white/70 rounded-full mt-2"></div>
+        </motion.div>
+      </motion.div>
     </section>
   );
 }
