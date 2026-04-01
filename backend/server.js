@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://gueddoudacenter.vercel.app"],
+    origin: ["http://localhost:5173", "https://abdelghafour.vercel.app"],
     credentials: true,
   })
 );
